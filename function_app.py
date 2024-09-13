@@ -5,7 +5,10 @@ import azure.functions as func
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
-@app.route(route="log-cognigy-llm-request", methods=["GET", "POST", "PATCH"])
+@app.route(
+    route="log-cognigy-llm-request/{**path}",
+    methods=["GET", "POST", "PATCH"],
+)
 # https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-expressions-patterns
 @app.blob_output(
     arg_name="outblob",
@@ -28,6 +31,7 @@ def log_cognigy_llm_request(
     req_info = {
         "method": req.method,
         "headers": dict(req.headers.items()),
+        "path": req.route_params.get("path"),
         "query_params": dict(req.params.items()),
         "body": body,
     }
