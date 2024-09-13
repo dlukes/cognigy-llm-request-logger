@@ -8,12 +8,12 @@ app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 @app.route(route="log-cognigy-llm-request", methods=["GET", "POST", "PATCH"])
 # https://learn.microsoft.com/en-us/azure/azure-functions/functions-bindings-expressions-patterns
 @app.blob_output(
-    arg_name="out_blob",
+    arg_name="outblob",
     path="cognigy-llm-requests/{DateTime}.json",
     connection="AzureWebJobsStorage",
 )
 def log_cognigy_llm_request(
-    req: func.HttpRequest, out_blob: func.Out[str]
+    req: func.HttpRequest, outblob: func.Out[str]
 ) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
@@ -32,7 +32,7 @@ def log_cognigy_llm_request(
         "body": body,
     }
 
-    out_blob.set(json.dumps(req_info, ensure_ascii=False, indent=2))
+    outblob.set(json.dumps(req_info, ensure_ascii=False, indent=2))
     return func.HttpResponse(
         json.dumps(req_info), headers={"content-type": "application/json"}
     )
