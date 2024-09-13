@@ -5,6 +5,7 @@ import azure.functions as func
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
+# https://learn.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-8.0#route-templates
 @app.route(
     route="log-cognigy-llm-request/{**path}",
     methods=["GET", "POST", "PATCH"],
