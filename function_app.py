@@ -24,7 +24,7 @@ def log_cognigy_llm_request(
     body = None
     try:
         body = req.get_json()
-        logging.info("Request body was JSON: %s.", type(body))
+        logging.info("Request body was JSON.")
     except ValueError:
         body = req.get_body().decode("utf-8")
         logging.info("Request body was NOT JSON.")
